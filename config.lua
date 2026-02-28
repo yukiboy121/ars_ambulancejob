@@ -1,59 +1,62 @@
-lib.locale()
+local Config = {}
 
-Config                         = {}
+Config.debug = false
 
-Config.Debug                   = false
+Config.useOxInventory = GetResourceState('ox_inventory'):find('start')
 
-Config.ClothingScript          = 'illenium-appearance' -- 'illenium-appearance', 'fivem-appearance' ,'core' or false -- to disable
-Config.EmsJobs                 = { "ambulance", "ems" }
-Config.RespawnTime             = 0                     -- in minutes
-Config.UseInterDistressSystem  = true
-Config.WaitTimeForNewCall      = 5                     -- minutes
+Config.clothingScript = 'illenium-appearance' -- 'illenium-appearance', 'fivem-appearance', 'core' or false -- to disable
+Config.emsJobs = { "ambulance", "ems" }
+Config.respawnTime = 0                        -- in minutes
+Config.waitTimeForNewCall = 5                 -- minutes
 
-Config.ReviveCommand           = "revive"
-Config.ReviveAreaCommand       = "revivearea"
-Config.HealCommand             = "heal"
-Config.HealAreaCommand         = "healarea"
-Config.ReviveAllCommand        = "reviveall"
+Config.reviveCommand = "revive"
+Config.reviveAreaCommand = "revivearea"
+Config.healCommand = "heal"
+Config.healAreaCommand = "healarea"
+Config.reviveAllCommand = "reviveall"
 
-Config.AdminGroup              = "group.admin"
+Config.adminGroup = "group.admin"
 
-Config.MedicBagProp            = "xm_prop_x17_bag_med_01a"
-Config.MedicBagItem            = "medicalbag"
+Config.medicBagProp = "xm_prop_x17_bag_med_01a"
+Config.medicBagItem = "medicalbag"
 
-Config.HelpCommand             = "911"
-Config.RemoveItemsOnRespawn    = true
+Config.tabletItem = "emstablet"
 
-Config.BaseInjuryReward        = 150 -- changes if the injury value is higher then 1
-Config.ReviveReward            = 700
+Config.helpCommand = "911"
+Config.removeItemsOnRespawn = true
+Config.keepItemsOnRespawn = { "money", "WEAPON_PISTOL" } -- items that will not be removed when respawed (works only when Config.RemoveItemsOnRespawn is true)
 
-Config.ParamedicTreatmentPrice = 4000
-Config.AllowAlways             = true        -- false if you want it to work only when there are only medics online
+Config.baseInjuryReward = 150
+Config.reviveReward = 700
 
-Config.AmbulanceStretchers     = 2           -- how many stretchers should an ambunalce have
-Config.ConsumeItemPerUse       = 10          -- every time you use an item it gets used by 10%
+Config.paramedicTreatmentPrice = 4000
+Config.shouldRevive = false
+Config.allowAlways = true             -- false if you want it to work only when there are only medics online
 
-Config.TimeToWaitForCommand    = 2           -- when player dies he needs to wait 2 minutes to do the ambulance command
-Config.NpcReviveCommand        = "ambulance" -- this will work only when there are no medics online
+Config.ambulanceStretchers = 2        -- how many stretchers should an ambulance have
+Config.consumeItemPerUse = 10         -- every time you use an item it gets used by 10%
 
-Config.UsePedToDepositVehicle  = false       -- if false the vehicle will instantly despawns
-Config.ExtraEffects            = true        -- false >> disables the screen shake and the black and white screen
+Config.timeToWaitForCommand = 2       -- when player dies he needs to wait 2 minutes to do the ambulance command
+Config.npcReviveCommand = "ambulance" -- this will work only when there are no medics online
 
-Config.EmsVehicles             = {           -- vehicles that have access to the props (cones and ecc..)
-	'ambulance',
-	'ambulance2',
+Config.usePedToDepositVehicle = false -- if false the vehicle will instantly despawns
+Config.extraEffects = true            -- false >> disables the screen shake and the black and white screen
+
+Config.emsVehicles = {                -- vehicles that have access to the props (cones and ecc..)
+	ambulance = true,
+	ambulance2 = true,
 }
 
-Config.DeathAnimations         = {
-	["car"] = {
+Config.animations = {
+	["death_car"] = {
 		dict = "veh@low@front_ps@idle_duck",
 		clip = "sit"
 	},
-	["normal"] = {
+	["death_normal"] = {
 		dict = "dead",
 		clip = "dead_a"
 	},
-	["revive"] = {
+	["get_up"] = {
 		dict = "get_up@directional@movement@from_knees@action",
 		clip = "getup_r_0"
 	}
@@ -64,7 +67,7 @@ Config.Hospitals = {
 	["phillbox"] = {
 		paramedic = {
 			model = "s_m_m_scientist_01",
-			pos = vec4(308.31, -595.44, 43.28, 68.22),
+			pos = vector4(312.0927, -596.1016, 42.2918, 338.7213),
 		},
 		bossmenu = {
 			pos = vector3(284.84, -615.6, 44.24),
@@ -277,13 +280,25 @@ function Config.SendDistressCall(msg)
 	-- TriggerServerEvent('qs-smartphone:server:sendJobAlert', {message = msg, location = GetEntityCoords(PlayerPedId())}, "ambulance")
 
 
-	--[--] -- GKS
+	-- [--] -- GKS
 	-- local myPos = GetEntityCoords(PlayerPedId())
 	-- local GPS = 'GPS: ' .. myPos.x .. ', ' .. myPos.y
 
 	-- ESX.TriggerServerCallback('gksphone:namenumber', function(Races)
-	--     local name = Races[2].firstname .. ' ' .. Races[2].lastname
+	--   local name = Races[2].firstname .. ' ' .. Races[2].lastname
 
-	--     TriggerServerEvent('gksphone:jbmessage', name, Races[1].phone_number, msg, '', GPS, "ambulance")
+	--   TriggerServerEvent('gksphone:jbmessage', name, Races[1].phone_number, msg, '', GPS, "ambulance")
 	-- end)
 end
+
+function Config.giveVehicleKeys(vehicle, plate)
+	-- exaple usage
+	-- exports['youscript']:name(vehicle, plate)
+end
+
+function Config.removeVehicleKeys(vehicle, plate)
+	-- exaple usage
+	-- exports['youscript']:name(vehicle, plate)
+end
+
+return Config
