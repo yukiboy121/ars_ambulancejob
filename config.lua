@@ -64,7 +64,7 @@ Config.Hospitals = {
 	["phillbox"] = {
 		paramedic = {
 			model = "s_m_m_scientist_01",
-			pos = vector4(312.0927, -596.1016, 42.2918, 338.7213),
+			pos = vec4(308.31, -595.44, 43.28, 68.22),
 		},
 		bossmenu = {
 			pos = vector3(284.84, -615.6, 44.24),
